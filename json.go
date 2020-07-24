@@ -1,10 +1,6 @@
 package jsoncase
 
-import (
-	"bytes"
-	"unicode"
-)
-
+//TransformVal transform all fieldName of map[string]interface embedded in the interface{} using the transformation function
 func TransformVal(transformation func(string) string) func(json interface{}) interface{} {
 	var TransformFieldName func(val interface{}) interface{}
 	TransformFieldName = func(val interface{}) interface{} {
@@ -37,6 +33,7 @@ func TransformVal(transformation func(string) string) func(json interface{}) int
 	return TransformFieldName
 }
 
+//TransformMap transform fieldName of all map[string]interface embedded in the root map using the transformation function
 func TransformMap(transformation func(string) string) func(json map[string]interface{}) map[string]interface{} {
 	var TransformFieldName func(json map[string]interface{}) map[string]interface{}
 	TransformFieldName = func(json map[string]interface{}) map[string]interface{} {
@@ -74,74 +71,17 @@ func TransformMap(transformation func(string) string) func(json map[string]inter
 	return TransformFieldName
 }
 
-func ToSnakeString(s string) string {
-	if len(s) == 0 {
-		return s
-	}
-	var buffer bytes.Buffer
-	for _, c := range s {
-		if unicode.IsUpper(c) {
-			if buffer.Len() > 0 {
-				buffer.WriteRune('_')
-			}
-			buffer.WriteRune(unicode.ToLower(c))
-		} else {
-			buffer.WriteRune(c)
-		}
-	}
-	return buffer.String()
-}
-
-func ToCamelString(s string) string {
-	if len(s) == 0 {
-		return s
-	}
-	var buffer bytes.Buffer
-	var skip bool
-	for _, c := range s {
-		if c == '_' {
-			skip = true
-			continue
-		}
-		if skip {
-			buffer.WriteRune(unicode.ToUpper(c))
-		} else if buffer.Len() == 0 {
-			buffer.WriteRune(unicode.ToLower(c))
-		} else {
-			buffer.WriteRune(c)
-		}
-	}
-	return buffer.String()
-}
-
-func ToPascalString(s string) string {
-	if len(s) == 0 {
-		return s
-	}
-	var buffer bytes.Buffer
-	var skip bool
-	for _, c := range s {
-		if c == '_' {
-			skip = true
-			continue
-		}
-		if skip || buffer.Len() == 0 {
-			buffer.WriteRune(unicode.ToUpper(c))
-		} else {
-			buffer.WriteRune(c)
-		}
-	}
-	return buffer.String()
-}
-
+//ToSnakeVal transform all fieldName of map[string]interface embedded in the interface{} to snake_case
 func ToSnakeVal(json interface{}) interface{} {
-	return TransformVal(ToSnakeString)(json)
+	return TransformVal(toSnakeString)(json)
 }
 
+//ToCamelVal transform all fieldName of map[string]interface embedded in the interface{} to camelCase
 func ToCamelVal(json interface{}) interface{} {
-	return TransformVal(ToCamelString)(json)
+	return TransformVal(toCamelString)(json)
 }
 
+//ToPascalVal transform all fieldName of map[string]interface embedded in the interface{} to PascalCase
 func ToPascalVal(json interface{}) interface{} {
-	return TransformVal(ToPascalString)(json)
+	return TransformVal(toPascalString)(json)
 }

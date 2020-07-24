@@ -1,50 +1,66 @@
 package jsoncase
 
-import "encoding/json"
+import (
+	"bytes"
+	"unicode"
+)
 
-func TransformJson(transformation func(string) string) func(string) string {
-	return func(j string) string {
-		res := TransformJsonBytes(transformation)([]byte(j))
-		return string(res)
+func toSnakeString(s string) string {
+	if len(s) == 0 {
+		return s
 	}
-}
-
-func TransformJsonBytes(transformation func(string) string) func([]byte) []byte {
-	return func(j []byte) []byte {
-		var m map[string]interface{}
-		err := json.Unmarshal(j, &m)
-		if err != nil {
-			return j
+	var buffer bytes.Buffer
+	for _, c := range s {
+		if unicode.IsUpper(c) {
+			if buffer.Len() > 0 {
+				buffer.WriteRune('_')
+			}
+			buffer.WriteRune(unicode.ToLower(c))
+		} else {
+			buffer.WriteRune(c)
 		}
-		res := TransformMap(transformation)(m)
-		resJ, err := json.Marshal(res)
-		if err != nil {
-			return j
-		}
-		return resJ
 	}
+	return buffer.String()
 }
 
-func ToSnakeJson(json string) string {
-	return TransformJson(ToSnakeString)(json)
+func toCamelString(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	var buffer bytes.Buffer
+	var skip bool
+	for _, c := range s {
+		if c == '_' {
+			skip = true
+			continue
+		}
+		if skip {
+			buffer.WriteRune(unicode.ToUpper(c))
+		} else if buffer.Len() == 0 {
+			buffer.WriteRune(unicode.ToLower(c))
+		} else {
+			buffer.WriteRune(c)
+		}
+	}
+	return buffer.String()
 }
 
-func ToCamelJson(json string) string {
-	return TransformJson(ToCamelString)(json)
-}
-
-func ToPascalJson(json string) string {
-	return TransformJson(ToPascalString)(json)
-}
-
-func ToSnakeJsonBytes(json []byte) []byte {
-	return TransformJsonBytes(ToSnakeString)(json)
-}
-
-func ToCamelJsonBytes(json []byte) []byte {
-	return TransformJsonBytes(ToCamelString)(json)
-}
-
-func ToPascalJsonBytes(json []byte) []byte {
-	return TransformJsonBytes(ToPascalString)(json)
+func toPascalString(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	var buffer bytes.Buffer
+	var skip bool
+	for _, c := range s {
+		if c == '_' {
+			skip = true
+			continue
+		}
+		if skip || buffer.Len() == 0 {
+			buffer.WriteRune(unicode.ToUpper(c))
+		} else {
+			buffer.WriteRune(c)
+		}
+	}
+	return buffer.String()
 }
