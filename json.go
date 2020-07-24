@@ -16,7 +16,7 @@ func TransformVal(transformation func(string) string) func(json interface{}) int
 			realVal := val.([]interface{})
 			thisVal := make([]interface{}, len(realVal))
 			for idx, elem := range realVal {
-				thisVal[idx] = TransformFieldName(elem.(map[string]interface{}))
+				thisVal[idx] = TransformFieldName(elem)
 			}
 			return thisVal
 		case []map[string]interface{}:

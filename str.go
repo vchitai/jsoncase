@@ -36,6 +36,7 @@ func toCamelString(s string) string {
 		}
 		if skip {
 			buffer.WriteRune(unicode.ToUpper(c))
+			skip = false
 		} else if buffer.Len() == 0 {
 			buffer.WriteRune(unicode.ToLower(c))
 		} else {
@@ -58,6 +59,7 @@ func toPascalString(s string) string {
 		}
 		if skip || buffer.Len() == 0 {
 			buffer.WriteRune(unicode.ToUpper(c))
+			skip = false
 		} else {
 			buffer.WriteRune(c)
 		}

@@ -52,6 +52,14 @@ func TestTransformString(t *testing.T) {
 			input:         snakeJSON,
 			expected:      pascalJSON,
 		},
+		{
+			name: "error json",
+			transformFunc: TransformJSON(func(s string) string {
+				return s
+			}),
+			input:    "this is not a json string",
+			expected: "this is not a json string",
+		},
 	}
 
 	for _, tc := range testCases {
