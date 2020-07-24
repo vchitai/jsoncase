@@ -2,6 +2,7 @@
 a go package for converting json case to various cases 
 
 [![Godoc Reference](https://godoc.org/github.com/vchitai/jsoncase?status.svg)](http://godoc.org/github.com/vchitai/jsoncase)
+[![PkgGoDev](https://pkg.go.dev/badge/vchitai/jsoncase)](https://pkg.go.dev/vchitai/jsoncase)
 [![Coverage](http://gocover.io/_badge/github.com/vchitai/jsoncase?0)](http://gocover.io/github.com/vchitai/jsoncase)
 [![Go Report Card](https://goreportcard.com/badge/github.com/vchitai/jsoncase)](https://goreportcard.com/report/github.com/vchitai/jsoncase)
 
