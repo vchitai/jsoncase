@@ -255,6 +255,8 @@ func TestTransformMap(t *testing.T) {
 			map[string]interface{}{
 				"c_f": "e",
 			},
+			"e",
+			1,
 		},
 		"x_y": map[string]interface{}{
 			"a_b": map[string]interface{}{
@@ -277,6 +279,8 @@ func TestTransformMap(t *testing.T) {
 			map[string]interface{}{
 				"cF": "e",
 			},
+			"e",
+			1,
 		},
 		"xY": map[string]interface{}{
 			"aB": map[string]interface{}{
@@ -299,6 +303,8 @@ func TestTransformMap(t *testing.T) {
 			map[string]interface{}{
 				"CF": "e",
 			},
+			"e",
+			1,
 		},
 		"XY": map[string]interface{}{
 			"AB": map[string]interface{}{
