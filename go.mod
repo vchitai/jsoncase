@@ -1,4 +1,4 @@
-module jsoncase
+module github.com/vchitai/jsoncase
 
 go 1.14
 
