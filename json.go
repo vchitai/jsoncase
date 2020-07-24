@@ -33,7 +33,7 @@ func TransformVal(transformation func(string) string) func(json interface{}) int
 	return TransformFieldName
 }
 
-//TransformMap transform fieldName of all map[string]interface embedded in the root map using the transformation function
+//TransformMap transform fieldName of all map[string]interface embedded in the root map using the transformation function.
 func TransformMap(transformation func(string) string) func(json map[string]interface{}) map[string]interface{} {
 	var TransformFieldName func(json map[string]interface{}) map[string]interface{}
 	TransformFieldName = func(json map[string]interface{}) map[string]interface{} {
